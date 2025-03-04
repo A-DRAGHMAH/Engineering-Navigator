@@ -1,0 +1,159 @@
+# AI Settings Configuration
+
+# Model Settings
+model_name: "Claude-3.5-Sonnet"
+temperature: 0.7
+max_tokens: 2048
+top_p: 0.95
+
+# Response Settings
+response_format: "markdown"
+include_code_context: true
+code_language_detection: true
+
+# Project-Specific Settings
+project_id: "679d7932000e35d64cea"
+database_id: "679d7c6900077e65bd0f"
+collection_id: "679d7c94001cf62d45f1"
+bucket_id: "679d7bb200366c6ead04"
+
+# Core Functionality
+core_function: "hall_video_playback"
+disable_general_qa: true
+force_video_response: true
+
+# Hall Search Settings
+hall_search: {
+  search_types: ["number", "name"],
+  auto_play_video: true,
+  search_fields: ["hallNumber", "title"],
+  exact_match_required: false
+}
+
+# Response Templates
+response_templates: {
+  searching: "Searching for the video guide...",
+  playing: "Playing video guide for {hall_identifier}",
+  not_found: "No video guide found. Here are similar halls:",
+  error: "Unable to play video. Opening hall videos page..."
+}
+
+# Video Playback Integration
+video_playback: {
+  method: "direct_play",
+  fallback: "filtered_list",
+  player_route: "/video-player",
+  auto_start: true
+}
+
+# Query Processing
+query_processing: {
+  extract_hall_info: true,
+  patterns: [
+    # Number patterns
+    "hall {number}",
+    "room {number}",
+    "{number}",
+    # Name patterns
+    "hall {name}",
+    "room {name}",
+    "{name}",
+    # Question patterns
+    "where is {identifier}",
+    "how (can|do) I (get|find) {identifier}",
+    "show me {identifier}",
+    "find {identifier}"
+  ],
+  ignore_patterns: [
+    "what",
+    "why",
+    "when",
+    "who",
+    "general",
+    "about"
+  ]
+}
+
+# Action Flow
+action_flow: [
+  "extract_identifier",
+  "search_database",
+  "play_video",
+  "show_filtered_list"
+]
+
+# Database Integration
+database_integration: {
+  search_method: "appwrite_query",
+  query_type: "combined",
+  search_priority: ["hallNumber", "title", "description"],
+  results_limit: 10
+}
+
+# UI Actions
+ui_actions: {
+  on_match: {
+    action: "play_video",
+    component: "VideoPlayerScreen",
+    params: {
+      autoPlay: true,
+      showControls: true
+    }
+  },
+  on_no_match: {
+    action: "show_filtered_list",
+    component: "HallVideosPage",
+    params: {
+      searchQuery: "{query}",
+      autoFocus: true
+    }
+  }
+}
+
+# Error Handling
+error_handling: {
+  video_not_found: "redirect_to_filtered_list",
+  playback_error: "show_alternative_halls",
+  timeout: "retry_once"
+}
+
+# Strict Mode Settings
+strict_mode: {
+  enable: true,
+  force_video_response: true,
+  ignore_general_queries: true,
+  require_hall_identifier: true,
+  block_external_references: true,
+  prevent_general_answers: true
+}
+
+# Performance
+performance: {
+  cache_enabled: true,
+  cache_duration: 3600,
+  preload_common_halls: true
+}
+
+# Security
+security: {
+  require_authentication: true,
+  validate_requests: true
+}
+
+# Development Settings
+debug_mode: false
+log_responses: true
+error_handling: "verbose"
+
+# API Integration
+api_endpoint: "https://cloud.appwrite.io/v1"
+enable_self_signed: true
+
+# Performance Settings
+cache_responses: true
+cache_duration: 3600
+batch_processing: true
+max_batch_size: 50
+
+# Security Settings
+anonymous_sessions_enabled: true 

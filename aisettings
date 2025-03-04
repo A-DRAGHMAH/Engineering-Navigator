@@ -1,0 +1,30 @@
+# AI Model Settings
+model_name: gpt-3.5-turbo
+temperature: 0.7
+max_tokens: 2048
+top_p: 1.0
+
+# API Configuration
+api_timeout_seconds: 30
+retry_attempts: 3
+retry_delay_seconds: 2
+
+# Response Settings
+stream_response: true
+include_history: true
+max_history_messages: 10
+
+# Safety Settings
+content_filter: true
+safe_mode: true
+allow_code_execution: false
+
+# Performance Settings
+cache_responses: true
+cache_duration_minutes: 60
+batch_requests: false
+
+# Customization
+default_language: en
+fallback_response: "I apologize, but I'm unable to process that request at the moment."
+system_prompt: "You are a helpful AI assistant focused on providing accurate and relevant information." 

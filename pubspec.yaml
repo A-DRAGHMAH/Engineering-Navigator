@@ -1,0 +1,63 @@
+name: aaup
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  firebase_core: ^2.24.2
+  firebase_storage: ^11.6.0
+  cloud_firestore: ^4.15.9
+
+  universal_html: ^2.2.4
+
+  url_launcher: ^6.2.4
+  qr_flutter: ^4.1.0
+  model_viewer_plus: ^1.7.0
+  table_calendar: ^3.0.9
+  intl: ^0.19.0
+  image_picker: ^1.0.4
+  file_picker: ^8.0.1
+  speech_to_text: ^6.5.1
+  http: ^1.1.0
+  avatar_glow: ^3.0.1
+  crypto: ^3.0.3
+  firebase_auth: ^4.17.9
+  uuid: ^4.5.1
+  webview_flutter: ^4.9.0
+  flutter_tts: ^4.2.0
+  dart_openai: ^5.1.0
+  html: ^0.15.4
+  timeago: ^3.7.0
+  firebase_messaging: ^14.7.20
+  flutter_local_notifications: ^18.0.1
+  shared_preferences: ^2.2.2
+  # android_intent_plus: ^4.0.3
+  fl_chart: ^0.69.2
+  pie_chart: ^5.4.0
+  video_player: ^2.8.2
+  path_provider: ^2.1.1
+  webview_flutter_android: ^3.15.0
+  chewie: ^1.7.5
+  sqflite: ^2.3.2
+  path: ^1.8.3
+  appwrite: ^12.0.4
+  logger: ^1.0.0
+  flutter_rating_bar: ^4.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+

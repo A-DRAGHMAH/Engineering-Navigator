@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  // Helper functions for reusable logic
+  function isAuthenticated() {
+    return request.auth != null;
+  }
+  
+  function isAdmin() {
+    return isAuthenticated() && 
+           exists(/databases/$(database)/documents/admins/$(request.auth.uid)) &&
+           get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
+  }
+
+  match /databases/{database}/documents {
+    // Educational Programs Rules
+    match /educational_programs/{programId} {
+      // Read access for all
+      allow read: if true;
+      
+      // Rating updates allowed for all users
+      allow update: if true && 
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ratings', 'averageRating']) &&
+        request.resource.data['ratings'].size() <= resource.data['ratings'].size() + 1;
+      
+      // Strict admin-only deletion
+      allow delete: if isAdmin() && 
+        request.auth.uid in resource.data.allowedAdmins;
+    }
+    
+    // Courses Collection
+    match /courses/{courseId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Events Collection
+    match /events/{eventId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // User Profiles Collection
+    match /user_profiles/{userId} {
+      allow read: if true;
+      allow create, update: if isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Notifications Collection
+    match /notifications/{notificationId} {
+      allow read: if isAuthenticated();
+      allow create: if isAdmin();
+      allow update, delete: if false;
+    }
+    
+    // Chat Messages Collection
+    match /chat_messages/{messageId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if request.auth.uid == resource.data.userId;
+    }
+    
+    // Admins Collection with enhanced validation
+    match /admins/{userId} {
+      allow read: if isAuthenticated();
+      allow create, update: if 
+        isAuthenticated() && 
+        request.auth.uid == userId && 
+        request.resource.data.role == 'admin';
+      allow delete: if false;
+    }
+    
+    // Default fallback rules
+    match /{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+} 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "934804345757",
+    "project_id": "engineering-navigator-v1",
+    "storage_bucket": "engineering-navigator-v1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934804345757:android:1462852d58a94e9a7d9574",
+        "android_client_info": {
+          "package_name": "com.example.aaup"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-HOLWfJoYpkkQuyTvST6Nj1ijHHy0SRI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

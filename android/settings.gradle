@@ -1,0 +1,54 @@
+import java.util.Properties
+
+pluginManagement {
+    def flutterSdkPath = {
+        def properties = new Properties()
+        def propertiesFile = new File(settingsDir, 'local.properties')
+        
+        // تحميل الملف local.properties إذا كان موجودًا
+        if (propertiesFile.exists()) {
+            propertiesFile.withReader('UTF-8') { reader -> properties.load(reader) }
+        }
+        
+        // الحصول على مسار Flutter SDK
+        def flutterSdk = properties.getProperty('flutter.sdk')
+        
+        // التحقق من صحة المسار
+        if (flutterSdk == null) {
+            throw new GradleException("Error: flutter.sdk not set in local.properties. Please configure it correctly.")
+        }
+        
+        return flutterSdk
+    }()
+
+    // تضمين Flutter Gradle plugin
+    includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
+
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+
+    plugins {
+        id 'dev.flutter.flutter-gradle-plugin' version '1.0.0' apply false
+    }
+}
+
+include ':app'
+
+def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
+def plugins = new Properties()
+def pluginsFile = new File(flutterProjectRoot.toFile(), '.flutter-plugins')
+
+// تحميل قائمة الإضافات إذا كانت موجودة
+if (pluginsFile.exists()) {
+    pluginsFile.withReader('UTF-8') { reader -> plugins.load(reader) }
+}
+
+// تضمين الإضافات في المشروع
+plugins.each { name, path ->
+    def pluginDirectory = flutterProjectRoot.resolve(path).resolve('android').toFile()
+    include ":$name"
+    project(":$name").projectDir = pluginDirectory
+}
